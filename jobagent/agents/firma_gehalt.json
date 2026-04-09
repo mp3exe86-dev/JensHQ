@@ -1,0 +1,40 @@
+{
+  "_info": "Gehaltsschätzungen für bekannte Firmen in der Region. * = Schätzung aus Erfahrungswerten/Kununu/Glassdoor. Bitte selbst prüfen und ergänzen.",
+
+  "firmen": {
+    "stadtverwaltung fritzlar":       {"titel": "IT-Administrator",      "gehalt": "E10 (ca. 50.000 € / Jahr)", "quelle": "TVöD"},
+    "stadtverwaltung kassel":         {"titel": "IT-Administrator",      "gehalt": "E10-E11 (ca. 50.000–60.000 € / Jahr)", "quelle": "TVöD"},
+    "landkreis kassel":               {"titel": "IT-Administrator",      "gehalt": "E10 (ca. 50.000 € / Jahr)", "quelle": "TVöD"},
+    "landkreis hersfeld-rotenburg":   {"titel": "IT-Administrator",      "gehalt": "E9-E10 (ca. 43.000–50.000 € / Jahr)", "quelle": "TVöD"},
+    "kreisverwaltung":                {"titel": "IT-Administrator",      "gehalt": "E10 (ca. 50.000 € / Jahr)", "quelle": "TVöD"},
+    "bundesagentur für arbeit":       {"titel": "IT-Administrator",      "gehalt": "E10-E11 (ca. 50.000–60.000 € / Jahr)", "quelle": "TVöD Bund"},
+    "bundesbehörde":                  {"titel": "IT-Administrator",      "gehalt": "E10-E11 (ca. 50.000–60.000 € / Jahr)", "quelle": "TVöD Bund"},
+    "bundeswehr":                     {"titel": "IT-Administrator",      "gehalt": "E10 (ca. 50.000 € / Jahr)", "quelle": "TVöD Bund"},
+    "finanzamt":                      {"titel": "IT-Administrator",      "gehalt": "A10-A11 (ca. 48.000–55.000 € / Jahr)", "quelle": "BBesG Hessen"},
+    "jobcenter":                      {"titel": "IT-Support",            "gehalt": "E9-E10 (ca. 43.000–50.000 € / Jahr)", "quelle": "TVöD"},
+
+    "gls germany":                    {"titel": "IT Service",            "gehalt": "ca. 38.000–45.000 € / Jahr *", "quelle": "Kununu/Glassdoor"},
+    "grillfürst gmbh":                {"titel": "IT-Administrator",      "gehalt": "ca. 42.000–52.000 € / Jahr *", "quelle": "Schätzung"},
+    "energiesysteme groß":            {"titel": "IT-Systemadministrator","gehalt": "ca. 45.000–55.000 € / Jahr *", "quelle": "Schätzung"},
+    "radmedics gmbh":                 {"titel": "IT-Systemadministrator","gehalt": "ca. 45.000–55.000 € / Jahr *", "quelle": "Schätzung"},
+    "jysk":                           {"titel": "IT-Administrator",      "gehalt": "ca. 45.000–55.000 € / Jahr *", "quelle": "Kununu"},
+    "jysk se":                        {"titel": "IT-Administrator",      "gehalt": "ca. 45.000–55.000 € / Jahr *", "quelle": "Kununu"},
+    "libri gmbh":                     {"titel": "IT-Systemadministrator","gehalt": "ca. 45.000–58.000 € / Jahr *", "quelle": "Kununu"},
+    "dis ag":                         {"titel": "IT-Administrator",      "gehalt": "ca. 45.000–60.000 € / Jahr *", "quelle": "Kununu/Glassdoor"},
+    "dis ag germany":                 {"titel": "IT-Administrator",      "gehalt": "ca. 45.000–60.000 € / Jahr *", "quelle": "Kununu/Glassdoor"},
+    "amaxo":                          {"titel": "IT-Administrator",      "gehalt": "ca. 40.000–50.000 € / Jahr *", "quelle": "Schätzung"},
+    "puro personaldienstleistung":    {"titel": "IT-Administrator",      "gehalt": "ca. 40.000–52.000 € / Jahr *", "quelle": "Schätzung"},
+    "interface systems":              {"titel": "IT-Administrator",      "gehalt": "ca. 45.000–58.000 € / Jahr *", "quelle": "Kununu"},
+    "jobactive gmbh":                 {"titel": "IT-Administrator",      "gehalt": "ca. 42.000–55.000 € / Jahr *", "quelle": "Schätzung"},
+    "xpron systems":                  {"titel": "IT-Support",            "gehalt": "ca. 35.000–45.000 € / Jahr *", "quelle": "Schätzung"},
+    "onoffice gmbh":                  {"titel": "IT-Support",            "gehalt": "ca. 38.000–48.000 € / Jahr *", "quelle": "Schätzung"},
+    "hws informationssysteme":        {"titel": "IT-Support",            "gehalt": "ca. 38.000–48.000 € / Jahr *", "quelle": "Schätzung"},
+    "allgeier it":                    {"titel": "IT-Administrator",      "gehalt": "ca. 45.000–58.000 € / Jahr *", "quelle": "Kununu"},
+    "charisma-tec":                   {"titel": "IT-Administrator",      "gehalt": "ca. 40.000–52.000 € / Jahr *", "quelle": "Schätzung"},
+    "techlister gmbh":                {"titel": "IT-Administrator",      "gehalt": "ca. 45.000–60.000 € / Jahr *", "quelle": "Schätzung"},
+    "franklin fitch":                 {"titel": "Cloud Engineer",        "gehalt": "ca. 55.000–70.000 € / Jahr *", "quelle": "Kununu"},
+    "k4 resources":                   {"titel": "Cloud Engineer",        "gehalt": "ca. 55.000–70.000 € / Jahr *", "quelle": "Schätzung"}
+  },
+
+  "_hinweis": "Neue Firmen einfach hier ergänzen. Format: 'firmenname (kleinbuchstaben)': {titel, gehalt, quelle}"
+}

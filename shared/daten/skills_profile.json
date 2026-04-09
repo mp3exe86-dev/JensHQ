@@ -1,0 +1,171 @@
+{
+  "name": "Jens Kreuz",
+  "wohnort": "Knüllwald",
+  "plz": "34593",
+  "umkreis_km": 40,
+  "max_fahrzeit_min": 30,
+  "gehalt": {
+    "minimum": 55000,
+    "ziel": 60000,
+    "langfristig": 70000,
+    "tvod_minimum": "E10"
+  },
+  "homeoffice": {
+    "gewuenscht": true,
+    "tage_pro_woche": 2,
+    "pflicht": false,
+    "ausnahme_bad_wildungen": {
+      "erlaubt": true,
+      "bedingung_gehalt": 60000,
+      "bedingung_homeoffice_tage": 2
+    }
+  },
+  "bevorzugte_arbeitgeber": [
+    "öffentlicher dienst",
+    "gemeinde",
+    "kreis",
+    "landkreis",
+    "stadt",
+    "bundesbehörde",
+    "finanzamt",
+    "jobcenter",
+    "bundesagentur",
+    "landratsamt",
+    "verwaltung",
+    "krankenhaus",
+    "klinik",
+    "kommunal"
+  ],
+  "skills": {
+    "hoch": [
+      "Microsoft Intune",
+      "Intune",
+      "Microsoft 365",
+      "M365",
+      "Active Directory",
+      "Windows 11",
+      "Windows 10",
+      "Incident Handling",
+      "Ticketsystem",
+      "Freshdesk",
+      "Remote Support",
+      "TeamViewer",
+      "Modern Workplace",
+      "Endpoint Management",
+      "User Lifecycle",
+      "Onboarding"
+    ],
+    "mittel": [
+      "Azure",
+      "Meraki",
+      "CheckMK",
+      "Rapid7",
+      "Microsoft Planner",
+      "Exchange Online",
+      "Teams",
+      "Gruppenberechtigungen",
+      "Netzwerk",
+      "Access Points",
+      "WLAN"
+    ],
+    "in_ausbildung": [
+      "AZ-900",
+      "ITIL 4",
+      "MD-102",
+      "Systemintegration",
+      "Vernetzung",
+      "Cloud"
+    ]
+  },
+  "zertifikate": {
+    "vorhanden": [],
+    "geplant": [
+      {
+        "name": "AZ-900",
+        "datum": "2026-03-17"
+      },
+      {
+        "name": "ITIL 4 Foundation",
+        "datum": "2026-Q2"
+      },
+      {
+        "name": "MD-102",
+        "datum": "2026-Q3"
+      }
+    ]
+  },
+  "jobrollen": {
+    "top": [
+      "IT Administrator",
+      "IT-Administrator",
+      "Systemadministrator",
+      "Modern Workplace",
+      "Endpoint Administrator",
+      "Microsoft 365 Administrator",
+      "IT Service",
+      "Workplace Engineer"
+    ],
+    "okay": [
+      "IT Support",
+      "IT Spezialist",
+      "IT Fachkraft",
+      "Helpdesk",
+      "Service Desk",
+      "IT Sachbearbeiter",
+      "IT Koordinator"
+    ],
+    "nicht_gewuenscht": [
+      "Softwareentwickler",
+      "Programmierer",
+      "Developer",
+      "Data Scientist",
+      "SAP",
+      "Java",
+      "Python Entwickler"
+    ]
+  },
+  "erlaubte_regionen": [
+    "knüllwald",
+    "kassel",
+    "bad hersfeld",
+    "fulda",
+    "schwalmstadt",
+    "bebra",
+    "rotenburg an der fulda",
+    "homberg",
+    "melsungen",
+    "fritzlar",
+    "wabern",
+    "gudensberg",
+    "felsberg",
+    "borken",
+    "neukirchen",
+    "ziegenhain",
+    "lauterbach",
+    "alsfeld",
+    "bad wildungen",
+    "hessen",
+    "nordhessen"
+  ],
+  "gesperrte_regionen": [
+    "hamburg",
+    "berlin",
+    "münchen",
+    "köln",
+    "düsseldorf",
+    "stuttgart",
+    "dortmund",
+    "essen",
+    "leipzig",
+    "dresden",
+    "hannover",
+    "nürnberg",
+    "bremen",
+    "schweiz",
+    "österreich",
+    "wien",
+    "zürich",
+    "frankfurt am main",
+    "eschwege"
+  ]
+}

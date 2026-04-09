@@ -1,0 +1,36 @@
+# Secrets
+.env
+*.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Logs
+logs/
+*.log
+
+# Daten (persönliche JSONs)
+daten/todos.json
+daten/vertraege.json
+daten/fokus.json
+daten/seen_jobs.json
+daten/skills_profile.json
+daten/firma_gehalt.json
+
+# Jobs Output
+jobs/
+
+# Obsidian Vault (zu groß + persönlich)
+vault/
+
+# Backups
+backups/
+
+# Sonstiges
+.DS_Store
+Thumbs.db
+drivers/

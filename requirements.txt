@@ -1,0 +1,21 @@
+# JensHQ — Python Dependencies
+# Installation: pip install -r requirements.txt --break-system-packages
+
+# Telegram & HTTP
+requests>=2.31.0
+urllib3>=2.0.0
+
+# SSH & SFTP
+paramiko>=3.0.0
+
+# RSS Feeds
+feedparser>=6.0.0
+
+# Environment Variables
+python-dotenv>=1.0.0
+
+# Pokémon TCG API (DealBot)
+# pokemontcgsdk>=2.0.0  # optional, aktuell direkt via requests
+
+# Telegram Bot (alternativ zu raw requests)
+# python-telegram-bot>=20.0  # optional, aktuell raw API
