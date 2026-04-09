@@ -4,9 +4,8 @@ import os
 import subprocess
 from datetime import date
 
-VAULT_PATH = r"C:\JobAgent\vault\SecondBrain"
-TODOS_FILE = os.path.join(VAULT_PATH, "todos.json")
-
+VAULT_PATH = "/home/jens/JobAgent/logs/"
+TODOS_FILE = "/home/jens/JobAgent/daten/todos.json"
 def generiere_log():
     heute = date.today().strftime("%d.%m.%Y")
     datum_datei = date.today().strftime("%d%m%Y")
@@ -39,7 +38,6 @@ def generiere_log():
 
     # Obsidian Graph automatisch aktualisieren
     print("🔗 Aktualisiere Obsidian Graph...")
-    subprocess.run(["python", r"C:\JobAgent\secondbrain\obsidian_graph.py"], check=False)
-
+    subprocess.run(["python3", "/home/jens/JobAgent/secondbrain/obsidian_graph.py"], check=False)
 if __name__ == "__main__":
     generiere_log()
