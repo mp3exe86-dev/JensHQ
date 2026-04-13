@@ -1,36 +1,28 @@
 {
-  "letzte_frage_id": "cc_07",
+  "letzte_frage_id": "id_03",
   "warte_auf_antwort": true,
   "themen": {
     "Cloud-Konzepte": {
-      "richtig": 2,
+      "richtig": 0,
       "falsch": 0,
-      "gesehen": [
-        "cc_03",
-        "cc_02",
-        "cc_07"
-      ]
+      "gesehen": []
     },
     "SLA-Regeln": {
-      "richtig": 1,
+      "richtig": 0,
       "falsch": 0,
-      "gesehen": [
-        "sla_04"
-      ]
+      "gesehen": []
     },
     "Identity & Security": {
-      "richtig": 1,
+      "richtig": 0,
       "falsch": 0,
       "gesehen": [
-        "id_05"
+        "id_03"
       ]
     },
     "Pricing & Cost Management": {
-      "richtig": 1,
+      "richtig": 0,
       "falsch": 0,
-      "gesehen": [
-        "price_03"
-      ]
+      "gesehen": []
     },
     "Governance": {
       "richtig": 0,
@@ -38,14 +30,12 @@
       "gesehen": []
     },
     "Azure Dienste": {
-      "richtig": 1,
+      "richtig": 0,
       "falsch": 0,
-      "gesehen": [
-        "svc_09"
-      ]
+      "gesehen": []
     }
   },
-  "gesamt_richtig": 6,
+  "gesamt_richtig": 0,
   "gesamt_falsch": 0,
-  "last_update_id": 35471168
+  "last_update_id": 35471169
 }
