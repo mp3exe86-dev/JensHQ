@@ -568,6 +568,7 @@ def resolve_name_to_id(name_or_id: str) -> str:
     for poke_id, entry in NAMEN_DB.items():
         if entry.get("de", "").lower() == name_lower:
             return poke_id
+    print(f"[resolve_name_to_id] Unbekannter DE-Name: '{name_or_id}' – nicht in NAMEN_DB gefunden.")
     return name_or_id
 
 # ──────────────────────────────────────────
@@ -1275,9 +1276,12 @@ def handle_odds(args: str) -> None:
 #  /vergleich – POKÉMON VERGLEICH
 # ──────────────────────────────────────────
 def handle_vergleich(args: str) -> None:
-    parts = args.strip().split()
+    parts = [p.strip() for p in args.strip().split(",") if p.strip()]
     if len(parts) < 2:
-        send_text("❌ Nutzung: /vergleich Glurak Nachtara")
+        send_text("❌ Nutzung: /vergleich Glurak,Nachtara")
+        return
+    if len(parts) > 2:
+        send_text("❌ /vergleich erwartet genau 2 Pokémon. Beispiel: /vergleich Glurak,Bisaflor")
         return
 
     name1, name2 = parts[0], parts[1]
@@ -1707,9 +1711,9 @@ def handle_romhack(args: str) -> None:
 #  /team – TEAM-ANALYSE
 # ──────────────────────────────────────────
 def handle_team(args: str) -> None:
-    namen = [n.strip() for n in args.strip().split() if n.strip()]
+    namen = [n.strip() for n in args.strip().split(",") if n.strip()]
     if len(namen) < 2:
-        send_text("❌ Nutzung: /team Glurak Nachtara Mewtu\nMin. 2, max. 6 Pokémon")
+        send_text("❌ Nutzung: /team Glurak,Nachtara,Mewtu\nMin. 2, max. 6 Pokémon")
         return
     if len(namen) > 6:
         namen = namen[:6]
