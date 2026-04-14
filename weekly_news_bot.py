@@ -15,7 +15,7 @@ load_dotenv()
 BOT_TOKEN = os.getenv("FOKUSBOT_TOKEN", "")
 CHAT_ID   = os.getenv("CHAT_ID", "8656887627")
 
-VAULT_PATH     = os.getenv("WINDOWS_VAULT", r"C:\JobAgent\vault\SecondBrain")
+VAULT_PATH     = os.getenv("WINDOWS_VAULT", os.path.join(os.path.dirname(os.path.abspath(__file__)), "daten"))
 TODOS_FILE     = os.path.join(VAULT_PATH, "todos.json")
 VERTRAEGE_FILE = os.path.join(VAULT_PATH, "vertraege.json")
 

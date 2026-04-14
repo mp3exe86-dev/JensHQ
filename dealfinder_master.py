@@ -6,10 +6,58 @@ Ruft alle Module auf, sendet Bericht nach Kategorie getrennt per JensDealBot
 
 import sys
 import time
-from datetime import datetime
+import json
+import os
+from datetime import datetime, date, timedelta
 
 sys.path.insert(0, r"/home/jens/JobAgent")
 from telegram_notifier import send_deal_message
+
+# ══════════════════════════════════════════
+#  GESEHENE DEALS (Duplikat-Filter, 3 Tage)
+# ══════════════════════════════════════════
+SEEN_DEALS_FILE = os.path.join(os.path.dirname(__file__), "daten", "seen_deals.json")
+SEEN_DEALS_TTL  = 3  # Tage
+
+def _deal_key(deal: dict) -> str:
+    url = deal.get("url") or deal.get("link") or deal.get("cm_url") or ""
+    if url:
+        return url
+    titel = str(deal.get("titel") or deal.get("name") or "").strip()[:60]
+    preis = str(deal.get("preis") or deal.get("aktuell") or "")
+    return f"{titel}_{preis}"
+
+def load_seen_deals() -> dict:
+    if os.path.exists(SEEN_DEALS_FILE):
+        try:
+            with open(SEEN_DEALS_FILE, encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
+
+def save_seen_deals(seen: dict):
+    os.makedirs(os.path.dirname(SEEN_DEALS_FILE), exist_ok=True)
+    with open(SEEN_DEALS_FILE, "w", encoding="utf-8") as f:
+        json.dump(seen, f, ensure_ascii=False, indent=2)
+
+def filter_neue_deals(deals: list) -> tuple[list, dict]:
+    """Gibt nur neue Deals zurück und das aktualisierte seen-Dict."""
+    seen  = load_seen_deals()
+    heute = date.today().isoformat()
+    cutoff = (date.today() - timedelta(days=SEEN_DEALS_TTL)).isoformat()
+
+    # Alte Einträge bereinigen
+    seen = {k: v for k, v in seen.items() if v >= cutoff}
+
+    neue = []
+    for deal in deals:
+        key = _deal_key(deal)
+        if key and key not in seen:
+            neue.append(deal)
+            seen[key] = heute
+
+    return neue, seen
 
 try:
     from dealfinder_pokemon       import run_dealfinder         as scan_pokemon
@@ -160,11 +208,17 @@ def run_master():
         except Exception as e:
             print(f"  Fehler: {e}")
 
+    # Nur neue Deals (Duplikat-Filter, 3 Tage)
+    neue_deals, seen_updated = filter_neue_deals(alle_deals)
+    print(f"  Filter: {len(alle_deals)} Deals gefunden, {len(neue_deals)} neu (nicht in den letzten {SEEN_DEALS_TTL} Tagen gesehen)")
+    save_seen_deals(seen_updated)
+    alle_deals = neue_deals
+
     # Sortieren nach Rabatt
     alle_deals.sort(key=lambda d: int(d.get("rabatt_pct") or d.get("rabatt") or 0), reverse=True)
 
     print(f"\n{'='*50}")
-    print(f"GESAMT: {len(alle_deals)} Deals | Quellen: {', '.join(quellen)}")
+    print(f"GESAMT: {len(alle_deals)} neue Deals | Quellen: {', '.join(quellen)}")
     print(f"{'='*50}\n")
 
     # Deals nach Kategorie gruppieren

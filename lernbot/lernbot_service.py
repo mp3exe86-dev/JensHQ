@@ -20,6 +20,7 @@ import sys as _sys
 _sys.path.insert(0, _ROOT)
 _sys.path.insert(0, _MOD)
 from lernbot_quiz import FRAGEN, THEMEN, get_fragen_by_thema, ist_mehrfachauswahl, ist_antwort_korrekt
+from lernbot_lektionen import LEKTIONEN, THEMEN_LEKTIONEN, get_lektion_by_id
 
 # ──────────────────────────────────────────
 #  KONFIGURATION
@@ -50,7 +51,8 @@ def load_tracker() -> dict:
         "themen": {t: {"richtig": 0, "falsch": 0, "gesehen": []} for t in THEMEN},
         "gesamt_richtig": 0,
         "gesamt_falsch": 0,
-        "last_update_id": 0
+        "last_update_id": 0,
+        "gesendete_lektionen": []
     }
 
 def save_tracker(tracker: dict):
@@ -275,6 +277,86 @@ def status_senden(tracker: dict):
     send("\n".join(lines))
 
 # ──────────────────────────────────────────
+#  LEKTION SENDEN
+# ──────────────────────────────────────────
+def naechste_lektion(tracker: dict) -> dict:
+    gesendete = set(tracker.get("gesendete_lektionen", []))
+    alle_ids  = [l["id"] for l in LEKTIONEN]
+    ungesehen = [lid for lid in alle_ids if lid not in gesendete]
+    if not ungesehen:
+        # Alle gesehen → reset
+        tracker["gesendete_lektionen"] = []
+        gesendete = set()
+        ungesehen = alle_ids
+    lektion_id = random.choice(ungesehen)
+    return get_lektion_by_id(lektion_id)
+
+def lektion_senden(tracker: dict) -> dict:
+    lektion = naechste_lektion(tracker)
+    if not lektion:
+        send("⚠️ Keine Lektion gefunden.")
+        return tracker
+
+    hat_frage = "frage" in lektion and "antworten" in lektion
+    text = (
+        f"📖 <b>Tageslektion – {lektion['thema']}</b>\n"
+        f"<b>{lektion['titel']}</b>\n"
+        f"────────────────────\n"
+        f"{lektion['inhalt']}"
+    )
+    if hat_frage:
+        antworten = lektion["antworten"]
+        buchstaben = ["A", "B", "C", "D"]
+        text += f"\n\n❓ <b>Mini-Quiz:</b> {lektion['frage']}\n"
+        for i, a in enumerate(antworten[:4]):
+            text += f"  {buchstaben[i]}) {a}\n"
+        text += "\n<i>Antworte mit A, B, C oder D</i>"
+
+    if send(text):
+        tracker.setdefault("gesendete_lektionen", []).append(lektion["id"])
+        if hat_frage:
+            tracker["letzte_lektion_id"]      = lektion["id"]
+            tracker["warte_auf_lektion_antwort"] = True
+        save_tracker(tracker)
+        print(f"[{datetime.now().strftime('%H:%M:%S')}] Lektion gesendet: {lektion['id']}")
+    return tracker
+
+def lektion_antwort_verarbeiten(tracker: dict, antwort_raw: str) -> dict:
+    lektion_id = tracker.get("letzte_lektion_id")
+    lektion = get_lektion_by_id(lektion_id)
+    if not lektion or "frage" not in lektion:
+        tracker["warte_auf_lektion_antwort"] = False
+        return tracker
+
+    antworten = lektion["antworten"]
+    richtig_idx = lektion.get("richtig", 0)
+    buchstaben = ["A", "B", "C", "D"]
+    antwort = antwort_raw.upper().strip()
+
+    if antwort in buchstaben and buchstaben.index(antwort) == richtig_idx:
+        msg = (
+            f"✅ <b>Richtig!</b>\n\n"
+            f"💡 {lektion.get('erklaerung', '')}\n\n"
+            f"Tippe /lektionen für die nächste Lektion."
+        )
+    else:
+        richtig_buchstabe = buchstaben[richtig_idx]
+        richtige_antwort  = antworten[richtig_idx] if richtig_idx < len(antworten) else "–"
+        msg = (
+            f"❌ <b>Leider falsch.</b>\n\n"
+            f"Richtig wäre: <b>{richtig_buchstabe}) {richtige_antwort}</b>\n\n"
+            f"💡 {lektion.get('erklaerung', '')}\n\n"
+            f"Tippe /lektionen für die nächste Lektion."
+        )
+
+    send(msg)
+    tracker["warte_auf_lektion_antwort"] = False
+    tracker["letzte_lektion_id"]         = None
+    save_tracker(tracker)
+    return tracker
+
+
+# ──────────────────────────────────────────
 #  HAUPTSCHLEIFE
 # ──────────────────────────────────────────
 def main():
@@ -306,6 +388,9 @@ def main():
                 if text.lower() in ["/frage", "/quiz", "/next"]:
                     tracker = frage_senden(tracker)
 
+                elif text.lower() in ["/lektionen", "/lektion", "/lernen"]:
+                    tracker = lektion_senden(tracker)
+
                 elif text.lower() in ["/status", "/fortschritt"]:
                     status_senden(tracker)
 
@@ -313,15 +398,18 @@ def main():
                     send(
                         "🤖 <b>JensLernBot – Befehle</b>\n\n"
                         "/frage – Neue Quizfrage starten\n"
+                        "/lektionen – Tageslektion anzeigen\n"
                         "/status – Fortschritt & Themen-Übersicht\n"
                         "/hilfe – Diese Hilfe\n\n"
                         "<i>Antworte auf eine Frage mit A, B, C oder D</i>"
                     )
 
                 elif all(c in "ABCDabcd, " for c in text) and any(c in "ABCDabcd" for c in text) and len(text.strip()) <= 6:
-                    if tracker["warte_auf_antwort"]:
+                    if tracker.get("warte_auf_lektion_antwort"):
+                        tracker = lektion_antwort_verarbeiten(tracker, text)
+                    elif tracker["warte_auf_antwort"]:
                         tracker = antwort_verarbeiten(tracker, text)
-                    # Kein Feedback bei A/B/C/D ohne aktive Frage → stilll ignorieren
+                    # Kein Feedback bei A/B/C/D ohne aktive Frage → still ignorieren
 
                 save_tracker(tracker)
 
@@ -335,4 +423,10 @@ def main():
             time.sleep(10)
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if "--lektion" in sys.argv:
+        # Einmaliger Modus: Lektion senden und beenden (für Cron)
+        tracker = load_tracker()
+        lektion_senden(tracker)
+    else:
+        main()
