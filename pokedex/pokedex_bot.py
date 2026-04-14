@@ -24,7 +24,7 @@ from datetime import datetime
 # ──────────────────────────────────────────
 #  DEUTSCHE NAMEN DATENBANK
 # ──────────────────────────────────────────
-NAMEN_DB_PFAD = "/home/jens/JobAgent/shared/daten/pokemon_names_de.json"
+NAMEN_DB_PFAD = "/home/jens/JobAgent/daten/pokemon_names_de.json"
 
 def load_namen_db() -> dict:
     if os.path.exists(NAMEN_DB_PFAD):
@@ -561,14 +561,15 @@ def get_ability_name_de(ability_name_en: str) -> str:
     return fallback
 
 def resolve_name_to_id(name_or_id: str) -> str:
-    """Wandelt deutschen Namen oder Nummer (mit führenden Nullen) in API-kompatiblen String um."""
+    """Wandelt deutschen/englischen Namen oder Nummer (mit führenden Nullen) in API-kompatiblen String um."""
     if name_or_id.isdigit():
         return str(int(name_or_id))
     name_lower = name_or_id.lower()
     for poke_id, entry in NAMEN_DB.items():
         if entry.get("de", "").lower() == name_lower:
             return poke_id
-    print(f"[resolve_name_to_id] Unbekannter DE-Name: '{name_or_id}' – nicht in NAMEN_DB gefunden.")
+        if entry.get("en", "").lower() == name_lower:
+            return poke_id
     return name_or_id
 
 # ──────────────────────────────────────────
@@ -959,11 +960,6 @@ def get_karten_preise(name_de: str, name_en: str) -> str:
             preis    = preise.get("trendPrice") or preise.get("averageSellPrice")
             if preis is None:
                 continue
-            # Cardmarket: exakte Suche nach Kartenname
-            # Cardmarket: deutschen Namen nutzen wenn verfügbar, sonst englisch
-            # Link immer anzeigen wenn Preis vorhanden
-            card_name_de = get_name_de(0)  # Fallback
-            # Deutschen Kartennamen aus lokaler DB holen via Pokémon-ID
             cm_search_name = name_de if name_de else kname
             cm_url = (
                 "https://www.cardmarket.com/de/Pokemon/Products/Singles"
@@ -1850,8 +1846,8 @@ def main():
         "   /meta Glurak – Competitive Tier + EVs\n"
         "   /formen Glurak – Alola/Galar/Hisui Formen\n"
         "   /odds 500 – Shiny-Wahrscheinlichkeit\n"
-        "   /vergleich Glurak Nachtara – Vergleich\n"
-        "   /team Glurak Mewtu Nachtara – Team-Analyse\n"
+        "   /vergleich Glurak,Nachtara – Vergleich\n"
+        "   /team Glurak,Mewtu,Nachtara – Team-Analyse\n"
         "   /romhack Unbound – ROM-Hack Pokémon\n"
         "━━━━━━━━━━━━━━━━━━━━\n"
         "💡 <i>Tipp: Deutsche + englische Namen funktionieren!</i>"
@@ -1956,8 +1952,8 @@ def main():
                         "/meta Glurak – Competitive Tier + Natur\n"
                         "/formen Glurak – Alola/Galar/Hisui Formen\n"
                         "/odds 500 – Shiny-Wahrscheinlichkeit\n"
-                        "/vergleich Glurak Nachtara – Pokémon vergleichen\n"
-                        "/team Glurak Mewtu Nachtara – Team-Analyse\n"
+                        "/vergleich Glurak,Nachtara – Pokémon vergleichen\n"
+                        "/team Glurak,Mewtu,Nachtara – Team-Analyse\n"
                         "/romhack Unbound – Pokémon im ROM-Hack"
                     )
 
