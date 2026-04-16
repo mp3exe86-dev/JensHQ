@@ -1833,25 +1833,25 @@ def get_gen_liste(gen: str) -> None:
 # ──────────────────────────────────────────
 def main():
     print(f"[{datetime.now().strftime('%H:%M:%S')}] JensPokedexBot gestartet.")
-    send_text(
-        "🎮 <b>JensPokedexBot v2 – Online!</b>\n"
-        "━━━━━━━━━━━━━━━━━━━━\n"
-        "📖 <b>Suche:</b>\n"
-        "   Name: <code>Glurak</code> oder <code>Charizard</code>\n"
-        "   Nummer: <code>6</code> oder <code>#006</code>\n"
-        "   Generation: <code>/gen1</code> bis <code>/gen9</code>\n"
-        "━━━━━━━━━━━━━━━━━━━━\n"
-        "⚙️ <b>Spezial-Befehle:</b>\n"
-        "   /shiny Glurak – Shiny-Hunting Guide\n"
-        "   /meta Glurak – Competitive Tier + EVs\n"
-        "   /formen Glurak – Alola/Galar/Hisui Formen\n"
-        "   /odds 500 – Shiny-Wahrscheinlichkeit\n"
-        "   /vergleich Glurak,Nachtara – Vergleich\n"
-        "   /team Glurak,Mewtu,Nachtara – Team-Analyse\n"
-        "   /romhack Unbound – ROM-Hack Pokémon\n"
-        "━━━━━━━━━━━━━━━━━━━━\n"
-        "💡 <i>Tipp: Deutsche + englische Namen funktionieren!</i>"
-    )
+#     send_text(
+#         "🎮 <b>JensPokedexBot v2 – Online!</b>\n"
+#         "━━━━━━━━━━━━━━━━━━━━\n"
+#         "📖 <b>Suche:</b>\n"
+#         "   Name: <code>Glurak</code> oder <code>Charizard</code>\n"
+#         "   Nummer: <code>6</code> oder <code>#006</code>\n"
+#         "   Generation: <code>/gen1</code> bis <code>/gen9</code>\n"
+#         "━━━━━━━━━━━━━━━━━━━━\n"
+#         "⚙️ <b>Spezial-Befehle:</b>\n"
+#         "   /shiny Glurak – Shiny-Hunting Guide\n"
+#         "   /meta Glurak – Competitive Tier + EVs\n"
+#         "   /formen Glurak – Alola/Galar/Hisui Formen\n"
+#         "   /odds 500 – Shiny-Wahrscheinlichkeit\n"
+#         "   /vergleich Glurak,Nachtara – Vergleich\n"
+#         "   /team Glurak,Mewtu,Nachtara – Team-Analyse\n"
+#         "   /romhack Unbound – ROM-Hack Pokémon\n"
+#         "━━━━━━━━━━━━━━━━━━━━\n"
+#         "💡 <i>Tipp: Deutsche + englische Namen funktionieren!</i>"
+#     )
 
     last_update_id = 0
 

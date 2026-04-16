@@ -47,5 +47,14 @@
   },
   "gesamt_richtig": 6,
   "gesamt_falsch": 0,
-  "last_update_id": 35471168
+  "last_update_id": 35471172,
+  "gesendete_lektionen": [
+    "consul_02",
+    "k8s_02",
+    "netz_03",
+    "docker_02",
+    "docker_03",
+    "nomad_01",
+    "k8s_01"
+  ]
 }
