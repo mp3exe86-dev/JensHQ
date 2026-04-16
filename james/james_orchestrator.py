@@ -180,6 +180,7 @@ def obs_write(path: str, content: str) -> bool:
 def obs_lese_kontext() -> str:
     kontext = ""
     dateien = [
+        "Soul.md",
         "Wissen/JensHQ_System.md",
         "Wissen/Zertifizierungen.md",
         "Wissen/Azure_AZ900.md",
@@ -393,7 +394,7 @@ def dev_mode_feature_bauen(aufgabe: str):
     
     neuer_code, genutzt = claude_mit_fallback(prompt)
     
-    if len(neuer_code) < 100:
+    if "Fehler" in neuer_code or len(neuer_code) < 100:
         send(f"❌ Code-Generierung fehlgeschlagen:\n{neuer_code[:300]}")
         return
 
@@ -1066,7 +1067,9 @@ def fuehre_ollama_entscheiden(text: str):
     elif "CLAUDE" in entscheidung:
         fuehre_claude_aus(text)
     else:
-        antwort = ollama(text)
+        soul = obs_read("Soul.md")
+        system = soul[:2000] if soul else "Du bist James, persönlicher KI-Assistent von Jens. Antworte direkt, leicht nerdisch und gelegentlich sarkastisch auf Deutsch."
+        antwort = ollama(text, system)
         if len(antwort) > 3000:
             antwort = antwort[:3000] + "..."
         send(f"🤖 <b>James:</b>\n\n{antwort}")
