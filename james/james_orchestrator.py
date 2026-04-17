@@ -1092,6 +1092,40 @@ def pc_online() -> bool:
 # ══════════════════════════════════════════════════════════════════════
 #  HAUPT-DISPATCHER
 # ══════════════════════════════════════════════════════════════════════
+def transkribiere_voice(file_id: str) -> str:
+    """Lädt Voice Message herunter und transkribiert mit Whisper."""
+    try:
+        import whisper
+        import tempfile
+
+        # Datei-Pfad von Telegram holen
+        r = requests.get(f"{API_URL}/getFile", params={"file_id": file_id}, timeout=10)
+        file_path = r.json().get("result", {}).get("file_path", "")
+        if not file_path:
+            return ""
+
+        # Datei herunterladen
+        url = f"https://api.telegram.org/file/bot{TELEGRAM_TOKEN}/{file_path}"
+        audio = requests.get(url, timeout=30)
+
+        with tempfile.NamedTemporaryFile(suffix=".ogg", delete=False) as f:
+            f.write(audio.content)
+            tmp_pfad = f.name
+
+        # Whisper lokal transkribieren
+        model = whisper.load_model("base")
+        result = model.transcribe(tmp_pfad)
+        os.unlink(tmp_pfad)
+
+        text = result["text"].strip()
+        if text:
+            send(f"🎤 <i>Verstanden: {text}</i>")
+        return text
+
+    except Exception as e:
+        send(f"❌ Voice Fehler: {e}")
+        return ""
+
 def verarbeite_nachricht(text: str):
     ts = datetime.now().strftime("%H:%M:%S")
     print(f"[{ts}] Nachricht: '{text}'")
@@ -1169,6 +1203,13 @@ def main():
                 if msg.get("chat", {}).get("id") != CHAT_ID:
                     continue
                 text = msg.get("text", "").strip()
+                voice = msg.get("voice", {})
+
+                if voice:
+                    file_id = voice.get("file_id")
+                    if file_id:
+                        text = transkribiere_voice(file_id)
+
                 if text:
                     verarbeite_nachricht(text)
             time.sleep(POLL_SEC)
