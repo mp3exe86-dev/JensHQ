@@ -72,27 +72,6 @@ def send(text: str) -> bool:
         print(f"[Telegram Fehler] {e}")
         return False
 
-def get_updates(offset: int) -> list:
-    try:
-        r = requests.get(f"{API_URL}/getUpdates",
-                         params={"offset": offset, "timeout": 2}, timeout=10)
-        return r.json().get("result", []) if r.json().get("ok") else []
-    except:
-        return []
-
-def send(text: str) -> bool:
-    try:
-        r = requests.post(f"{API_URL}/sendMessage", json={
-            "chat_id": CHAT_ID,
-            "text": text,
-            "parse_mode": "HTML",
-            "disable_web_page_preview": True
-        }, timeout=10)
-        return r.json().get("ok", False)
-    except Exception as e:
-        print(f"[Telegram Fehler] {e}")
-        return False
-
 def send_buttons(text: str, buttons: list) -> bool:
     try:
         keyboard = {"inline_keyboard": [buttons]}
@@ -115,13 +94,6 @@ def answer_callback(callback_id: str) -> None:
     except:
         pass
 
-def get_updates(offset: int) -> list:
-    try:
-        r = requests.get(f"{API_URL}/getUpdates",
-                         params={"offset": offset, "timeout": 2}, timeout=10)
-        return r.json().get("result", []) if r.json().get("ok") else []
-    except:
-        return []
 # ══════════════════════════════════════════════════════════════════════
 #  SSH
 # ══════════════════════════════════════════════════════════════════════
@@ -1048,6 +1020,46 @@ def fuehre_claude_aus(text: str):
     )
 
 
+# ══════════════════════════════════════════════════════════════════════
+#  SARKASTISCHE NEWS
+# ══════════════════════════════════════════════════════════════════════
+def sende_sarkastische_news():
+    """Holt eine aktuelle KI/Tech News und kommentiert sie sarkastisch wie ein Kumpel."""
+    try:
+        import feedparser
+        import random as _random
+        feeds = [
+            "https://the-decoder.de/feed/",
+            "https://t3n.de/feed/",
+            "https://www.heise.de/developer/rss/news-atom.xml",
+        ]
+        feed = feedparser.parse(_random.choice(feeds))
+        if not feed.entries:
+            return
+        entry = _random.choice(feed.entries[:5])
+        titel = entry.get("title", "")
+        link  = entry.get("link", "")
+        soul  = obs_read("Soul.md")
+        system = soul[:2000] if soul else "Du bist James, sarkastischer Tech-Nerd-Assistent von Jens."
+        prompt = (
+            f"Du bist James, Jens sein persönlicher KI-Assistent und Tech-Nerd-Kumpel.\n"
+            f"Du hast gerade diese News gelesen:\n\n'{titel}'\n\n"
+            f"Kommentiere das kurz und locker wie ein Kumpel — sarkastisch, ironisch, nerdisch. "
+            f"Max 2-3 Sätze. Kein 'Hey Jens' am Anfang, einfach direkt rein. "
+            f"Deutsch. Kein Markdown."
+        )
+        kommentar, _ = claude_mit_fallback(prompt, system)
+        if not kommentar or "Fehler" in kommentar:
+            return
+        send(
+            f"📰 <b>{titel}</b>\n\n"
+            f"🤖 {kommentar}\n\n"
+            f"<a href='{link}'>→ Artikel lesen</a>"
+        )
+    except Exception as e:
+        print(f"[sarkastische_news] Fehler: {e}")
+
+
 def fuehre_ollama_entscheiden(text: str):
     send("🤔 <i>Analysiere Absicht...</i>")
     prompt = (
@@ -1093,31 +1105,23 @@ def pc_online() -> bool:
 #  HAUPT-DISPATCHER
 # ══════════════════════════════════════════════════════════════════════
 def transkribiere_voice(file_id: str) -> str:
-    """Lädt Voice Message herunter und transkribiert mit Whisper."""
+    """Lädt Voice Message herunter und schickt sie an Whisper Server auf Windows."""
     try:
-        import whisper
-        import tempfile
-
         # Datei-Pfad von Telegram holen
         r = requests.get(f"{API_URL}/getFile", params={"file_id": file_id}, timeout=10)
         file_path = r.json().get("result", {}).get("file_path", "")
         if not file_path:
             return ""
 
-        # Datei herunterladen
+        # Audio herunterladen
         url = f"https://api.telegram.org/file/bot{TELEGRAM_TOKEN}/{file_path}"
         audio = requests.get(url, timeout=30)
 
-        with tempfile.NamedTemporaryFile(suffix=".ogg", delete=False) as f:
-            f.write(audio.content)
-            tmp_pfad = f.name
-
-        # Whisper lokal transkribieren
-        model = whisper.load_model("base")
-        result = model.transcribe(tmp_pfad)
-        os.unlink(tmp_pfad)
-
-        text = result["text"].strip()
+        # An Whisper Server auf Windows schicken
+        files = {"audio": ("voice.ogg", audio.content, "audio/ogg")}
+        resp = requests.post("http://192.168.178.80:5050/transcribe", files=files, timeout=60)
+        
+        text = resp.json().get("text", "").strip()
         if text:
             send(f"🎤 <i>Verstanden: {text}</i>")
         return text
@@ -1146,7 +1150,48 @@ def verarbeite_nachricht(text: str):
             f"<i>Services: {', '.join(SERVICES)}</i>"
         )
         return
+    
+    if cmd == "/fitbit":
+        try:
+            from datetime import timedelta
+            import base64
 
+            client_id     = os.getenv("FITBIT_CLIENT_ID")
+            client_secret = os.getenv("FITBIT_CLIENT_SECRET")
+            refresh_token = os.getenv("FITBIT_REFRESH_TOKEN")
+            user_id       = os.getenv("FITBIT_USER_ID", "7PS3ZT")
+
+            # Token refreshen
+            credentials = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
+            r = requests.post("https://api.fitbit.com/oauth2/token",
+                headers={"Authorization": f"Basic {credentials}",
+                         "Content-Type": "application/x-www-form-urlencoded"},
+                data={"grant_type": "refresh_token", "refresh_token": refresh_token}
+            )
+            token = r.json().get("access_token", os.getenv("FITBIT_ACCESS_TOKEN"))
+            headers = {"Authorization": f"Bearer {token}"}
+
+            gestern = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+
+            # Daten holen
+            schritte = requests.get(f"https://api.fitbit.com/1/user/{user_id}/activities/date/{gestern}.json", headers=headers).json().get("summary", {}).get("steps", 0)
+            schlaf_min = requests.get(f"https://api.fitbit.com/1.2/user/{user_id}/sleep/date/{gestern}.json", headers=headers).json().get("summary", {}).get("totalMinutesAsleep", 0)
+            ruhepuls = requests.get(f"https://api.fitbit.com/1/user/{user_id}/activities/heart/date/{gestern}/1d.json", headers=headers).json().get("activities-heart", [{}])[0].get("value", {}).get("restingHeartRate", 0)
+
+            schlaf_h = schlaf_min // 60
+            schlaf_m = schlaf_min % 60
+
+            send(
+                f"💪 <b>Gestern ({gestern}):</b>\n"
+                f"👟 Schritte: <b>{schritte:,}</b>\n"
+                f"😴 Schlaf: <b>{schlaf_h}h {schlaf_m:02d}min</b>\n"
+                f"❤️ Ruhepuls: <b>{ruhepuls} bpm</b>"
+            )
+        except Exception as e:
+            send(f"❌ Fitbit Fehler: {e}")
+        return
+
+    
     absicht = erkenne_absicht(text)
     print(f"[{ts}] Absicht: {absicht}")
 
