@@ -163,6 +163,15 @@ def send_buttons(text: str, buttons: list) -> bool:
         print(f"[Telegram Button Fehler] {e}")
         return False
 
+def answer_callback(callback_id: str) -> None:
+    try:
+        requests.post(f"{API_URL}/answerCallbackQuery",
+            json={"callback_query_id": callback_id}, timeout=5)
+    except:
+        pass
+
+# ══════════════════════════════════════════════════════════════════════
+
 def get_updates(offset: int) -> list:
     try:
         r = requests.get(f"{API_URL}/getUpdates",
@@ -171,7 +180,6 @@ def get_updates(offset: int) -> list:
     except:
         return []
 
-# ══════════════════════════════════════════════════════════════════════
 #  SSH
 # ══════════════════════════════════════════════════════════════════════
 def ssh_befehl(befehl: str) -> tuple:
@@ -1353,7 +1361,6 @@ def main():
                         datum = data.replace("dev_nein_", "")
                         dev_mode_anwenden(datum, False)
                     elif data.startswith("dev_retry_"):
-                        # Aufgabe aus Backup-Datei lesen und neu generieren
                         datum = data.replace("dev_retry_", "")
                         out, _, _ = ssh_befehl(f"ls {BASE}/backups/*patch_{datum}.py 2>/dev/null")
                         if out:
@@ -1363,6 +1370,22 @@ def main():
                             dev_mode_feature_bauen(f"{ziel_svc} (Retry)")
                         else:
                             send("❌ Patch nicht mehr vorhanden für Retry.")
+                    elif data.startswith("quiz_"):
+                        # Format: quiz_A_123 → Antwort A, Frage ID 123
+                        try:
+                            teile = data.split("_")
+                            antwort = teile[1]
+                            frage_id = int(teile[2])
+                            import subprocess as _sp
+                            _sp.Popen([
+                                "python3",
+                                "/home/jens/JobAgent/shared/az900_quiz.py",
+                                "antwort",
+                                str(frage_id),
+                                antwort
+                            ])
+                        except Exception as e:
+                            print(f"[Quiz Callback Fehler] {e}")
                     continue
 
                 if not msg:

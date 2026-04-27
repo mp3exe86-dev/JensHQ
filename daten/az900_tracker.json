@@ -1,6 +1,6 @@
 {
-  "gesamt_richtig": 4,
-  "gesamt_falsch": 1,
+  "gesamt_richtig": 19,
+  "gesamt_falsch": 6,
   "fragen": {
     "404": {
       "richtig": 1,
@@ -26,9 +26,104 @@
       "richtig": 1,
       "falsch": 0,
       "letzte": "2026-04-27"
+    },
+    "19": {
+      "richtig": 0,
+      "falsch": 1,
+      "letzte": "2026-04-27"
+    },
+    "421": {
+      "richtig": 1,
+      "falsch": 1,
+      "letzte": "2026-04-27"
+    },
+    "209": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "51": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "113": {
+      "richtig": 0,
+      "falsch": 1,
+      "letzte": "2026-04-27"
+    },
+    "92": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "237": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "69": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "193": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "66": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "216": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "147": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "181": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "289": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "132": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "430": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "12": {
+      "richtig": 0,
+      "falsch": 1,
+      "letzte": "2026-04-27"
+    },
+    "74": {
+      "richtig": 0,
+      "falsch": 1,
+      "letzte": "2026-04-27"
+    },
+    "101": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
     }
   },
-  "wochen_richtig": 4,
-  "wochen_falsch": 1,
+  "wochen_richtig": 19,
+  "wochen_falsch": 6,
   "wochen_start": "2026-04-27"
 }

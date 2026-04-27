@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "bereich": "Nacken",
+    "name": "Seitliche Kopfneigung",
+    "dauer": "30 Sek je Seite, 2x",
+    "anleitung": "Steh oder sitz aufrecht. Neige den Kopf langsam zur rechten Schulter — als ob du dein Ohr zur Schulter bringen willst. Die Schulter bleibt unten! Du spürst die Dehnung links am Hals. 30 Sekunden halten, dann Seite wechseln. Perfekt nach langem Bildschirmarbeiten.",
+    "ziel": "Löst Verspannungen im seitlichen Nacken, verbessert die Drehbeweglichkeit links/rechts"
+  },
+  {
+    "id": 2,
+    "bereich": "Nacken",
+    "name": "Chin Tuck (Doppelkinn-Übung)",
+    "dauer": "10x wiederholen, 3 Sätze",
+    "anleitung": "Steh oder sitz aufrecht. Ziehe das Kinn gerade nach hinten — wie wenn du einen Doppelkinn machst. Stell dir vor, jemand zieht deinen Hinterkopf an einer Schnur nach hinten. 5 Sekunden halten, loslassen, wiederholen. Fühlt sich seltsam an, wirkt aber stark gegen den 'Bildschirm-Hals'.",
+    "ziel": "Korrigiert die Vorwärtshaltung des Kopfes, entlastet Nackenwirbel und -muskulatur"
+  },
+  {
+    "id": 3,
+    "bereich": "Hüftbeuger / Unterer Rücken",
+    "name": "Ausfallschritt-Dehnung (Der Hochzeitsantrag)",
+    "dauer": "45 Sek je Seite, 2x",
+    "anleitung": "Geh in den Kniestand — rechtes Knie auf dem Boden, linker Fuß vorne. Jetzt schiebst du dein Becken langsam nach vorne und unten, bis du einen Zug in der Leiste/Vorderseite des rechten Oberschenkels spürst. Wichtig: Bauch anspannen, Rücken gerade — kein Hohlkreuz! Du dehnst damit deinen Psoas, den Muskel der durch stundenlanges Sitzen am stärksten verkürzt. Das ist DEINE wichtigste Übung.",
+    "ziel": "Dehnt den Hüftbeuger (Psoas), lindert unteren Rückenschmerz, verbessert Haltung"
+  },
+  {
+    "id": 4,
+    "bereich": "Hüfte / Gesäß",
+    "name": "Piriformis-Dehnung (Figur-4)",
+    "dauer": "45 Sek je Seite, 2x",
+    "anleitung": "Setz dich auf einen Stuhl. Leg den rechten Knöchel auf das linke Knie — wie eine Vier. Jetzt lehnst du dich langsam mit geradem Rücken nach vorne, bis du tief im Gesäß rechts eine Dehnung spürst. Der Piriformis-Muskel verspannt sich beim Sitzen stark und kann sogar Ischias-Schmerzen auslösen. Diese Übung kannst du direkt am Schreibtisch machen.",
+    "ziel": "Löst den tiefen Gesäßmuskel, befreit den Ischiasnerv, mobilisiert die Hüfte"
+  },
+  {
+    "id": 5,
+    "bereich": "Hamstrings (Oberschenkel Rückseite)",
+    "name": "Liegende Beinhebung",
+    "dauer": "30-45 Sek je Seite, 2x",
+    "anleitung": "Leg dich auf den Rücken. Das andere Bein bleibt gestreckt auf dem Boden. Umfasse das rechte Bein mit beiden Händen hinter dem Oberschenkel und ziehe es gestreckt zu dir hoch — so weit wie möglich, ohne dass das Knie sich beugt. Du spürst die Dehnung an der Rückseite des Oberschenkels. Das ist die effektivste Übung für dein Ziel: Handflächen auf den Boden.",
+    "ziel": "Verlängert die Hamstrings, entlastet die Lendenwirbelsäule, Voraussetzung für Bodenkontakt"
+  },
+  {
+    "id": 6,
+    "bereich": "Hamstrings / Rücken",
+    "name": "Vorwärtsbeuge stehend",
+    "dauer": "30-60 Sek, 3x täglich",
+    "anleitung": "Steh hüftbreit. Beuge dich langsam nach vorne, Wirbel für Wirbel. Lass Kopf und Arme hängen. Die Knie dürfen leicht gebeugt sein — lass die Schwerkraft arbeiten. Jeden Tag ein bisschen weiter nach unten. Nach 4-6 Wochen regelmäßigem Dehnen kommst du dem Boden deutlich näher. Morgens nach dem Aufstehen besonders wichtig.",
+    "ziel": "Dehnt Hamstrings und gesamte Rückenfaszie, täglicher Fortschritt zum Boden-Ziel"
+  },
+  {
+    "id": 7,
+    "bereich": "Rücken / Brust / Schultern",
+    "name": "Türrahmen-Dehnung",
+    "dauer": "30 Sek, 3x",
+    "anleitung": "Stell dich in einen Türrahmen. Leg beide Unterarme an den Rahmen (90 Grad Winkel). Lehne deinen Oberkörper langsam nach vorne durch den Türrahmen, bis du eine Dehnung in der Brust und den Schultern spürst. Hält die Schultern zurück und öffnet den Brustkorb — wirkt der typischen 'IT-Vorwärtsschulter' entgegen. Kannst du beim Vorbeigehen an jeder Tür machen.",
+    "ziel": "Öffnet Brust und Schultern, korrigiert Rundrücken, entlastet Nacken"
+  },
+  {
+    "id": 8,
+    "bereich": "Rücken allgemein",
+    "name": "Katze-Kuh (Wirbelsäulenmobilisation)",
+    "dauer": "10 Wiederholungen, 2x",
+    "anleitung": "Geh in den Vierfüßler — Hände unter Schultern, Knie unter Hüften. Abwechselnd: Rücken rund machen wie eine wütende Katze (Kinn zur Brust, Bauch hochziehen) — dann Rücken durchhängen lassen wie eine Kuh (Kopf hoch, Bauch Richtung Boden). Langsam und fließend. Mobilisiert jeden Wirbel einzeln. Ideal morgens direkt nach dem Aufstehen.",
+    "ziel": "Mobilisiert die gesamte Wirbelsäule, löst morgendliche Steifheit, stärkt Rumpfkontrolle"
+  },
+  {
+    "id": 9,
+    "bereich": "Unterer Rücken / Hüfte",
+    "name": "Liegender Knieanzug",
+    "dauer": "30 Sek je Seite + beide zusammen, 2x",
+    "anleitung": "Leg dich auf den Rücken. Zieh ein Knie zur Brust und umfasse es mit beiden Händen. Lass den unteren Rücken flach auf dem Boden. 30 Sek halten. Dann beide Knie zusammen zur Brust — Körper wird zur Kugel. Diese Übung wirkt sofort bei akuten Rückenschmerzen und kann im Bett gemacht werden.",
+    "ziel": "Streckt den unteren Rücken, löst akute Verspannungen, mobilisiert die Lendenwirbelsäule"
+  },
+  {
+    "id": 10,
+    "bereich": "Hamstrings / Waden",
+    "name": "Fersen-an-die-Wand",
+    "dauer": "2-3 Minuten",
+    "anleitung": "Leg dich auf den Rücken nah an die Wand. Stell beide Fersen an der Wand ab, Beine gestreckt. Entspann dich komplett und lass die Beine schwer werden. Die Schwerkraft dehnt sanft aber effektiv die Hamstrings. Je näher du an der Wand bist, desto intensiver. Perfekt abends beim Fernsehen — 0 Aufwand, maximale Wirkung.",
+    "ziel": "Passives Dehnen der Hamstrings und Waden ohne Anstrengung, ideal zum Einschlafen"
+  }
+]
