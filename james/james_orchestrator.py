@@ -17,6 +17,82 @@ from datetime import datetime
 urllib3.disable_warnings()
 
 # ══════════════════════════════════════════════════════════════════════
+#  TAGEBUCH SYSTEM
+# ══════════════════════════════════════════════════════════════════════
+
+def tagebuch_log(richtung: str, text: str):
+    """Loggt Input/Output mit Timestamp in tagebuch_DATUM.json."""
+    try:
+        datum = datetime.now().strftime("%Y-%m-%d")
+        pfad = f"/home/jens/JobAgent/daten/tagebuch_{datum}.json"
+        ts = datetime.now().strftime("%H:%M:%S")
+        eintrag = {"zeit": ts, "richtung": richtung, "text": text[:500]}
+        
+        # Bestehende Einträge laden
+        try:
+            with open(pfad, "r") as f:
+                daten = json.load(f)
+        except:
+            daten = {"datum": datum, "eintraege": []}
+        
+        # Pause erkennen (>45 min seit letztem Eintrag)
+        if daten["eintraege"]:
+            letzter = daten["eintraege"][-1]["zeit"]
+            letzter_dt = datetime.strptime(f"{datum} {letzter}", "%Y-%m-%d %H:%M:%S")
+            jetzt_dt = datetime.strptime(f"{datum} {ts}", "%Y-%m-%d %H:%M:%S")
+            diff_min = (jetzt_dt - letzter_dt).seconds // 60
+            if diff_min >= 45:
+                pause_eintrag = {
+                    "zeit": ts,
+                    "richtung": "PAUSE",
+                    "text": f"⏸️ Pause von {diff_min} Minuten"
+                }
+                daten["eintraege"].append(pause_eintrag)
+        
+        daten["eintraege"].append(eintrag)
+        
+        with open(pfad, "w") as f:
+            json.dump(daten, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"[Tagebuch Fehler] {e}")
+
+def tagebuch_zusammenfassung() -> str:
+    """Liest das heutige Tagebuch und erstellt eine Zusammenfassung."""
+    try:
+        datum = datetime.now().strftime("%Y-%m-%d")
+        pfad = f"/home/jens/JobAgent/daten/tagebuch_{datum}.json"
+        with open(pfad, "r") as f:
+            daten = json.load(f)
+        
+        eintraege = daten.get("eintraege", [])
+        if not eintraege:
+            return "📔 Heute noch keine Aktivität aufgezeichnet."
+        
+        erster = eintraege[0]["zeit"]
+        letzter = eintraege[-1]["zeit"]
+        inputs = [e for e in eintraege if e["richtung"] == "INPUT"]
+        pausen = [e for e in eintraege if e["richtung"] == "PAUSE"]
+        
+        zusammenfassung = (
+            f"📔 <b>Tagebuch — {datum}</b>\n\n"
+            f"🕐 Erste Aktivität: {erster}\n"
+            f"🕐 Letzte Aktivität: {letzter}\n"
+            f"💬 Nachrichten: {len(inputs)}\n"
+            f"⏸️ Pausen: {len(pausen)}\n\n"
+        )
+        
+        if inputs:
+            zusammenfassung += "<b>Was du heute gemacht hast:</b>\n"
+            for e in inputs[:10]:
+                zusammenfassung += f"• [{e['zeit']}] {e['text'][:60]}\n"
+            if len(inputs) > 10:
+                zusammenfassung += f"• ...und {len(inputs)-10} weitere\n"
+        
+        return zusammenfassung
+    except:
+        return "📔 Kein Tagebuch für heute gefunden."
+
+# ══════════════════════════════════════════════════════════════════════
 #  KONFIGURATION
 # ══════════════════════════════════════════════════════════════════════
 from dotenv import load_dotenv
@@ -87,12 +163,13 @@ def send_buttons(text: str, buttons: list) -> bool:
         print(f"[Telegram Button Fehler] {e}")
         return False
 
-def answer_callback(callback_id: str) -> None:
+def get_updates(offset: int) -> list:
     try:
-        requests.post(f"{API_URL}/answerCallbackQuery",
-            json={"callback_query_id": callback_id}, timeout=5)
+        r = requests.get(f"{API_URL}/getUpdates",
+                         params={"offset": offset, "timeout": 2}, timeout=10)
+        return r.json().get("result", []) if r.json().get("ok") else []
     except:
-        pass
+        return []
 
 # ══════════════════════════════════════════════════════════════════════
 #  SSH
@@ -357,16 +434,24 @@ def dev_mode_feature_bauen(aufgabe: str):
     send(f"🧠 <i>Generiere Patch für {ziel_svc}...</i>")
     
     prompt = (
-        f"Du bist ein Python-Entwickler. Hier ist der Code von {ziel_svc}:\n\n"
-        f"```python\n{code_kurz}\n```\n\n"
+        f"Du bist ein Python-Entwickler. Hier ist ein Auszug aus {ziel_svc}:\n\n"
+        f"{code_kurz}\n\n"
         f"Aufgabe: {aufgabe}\n\n"
-        f"Gib NUR den vollständigen geänderten Python-Code zurück, "
-        f"keine Erklärungen, kein Markdown, nur reiner Python-Code."
+        f"Schreibe NUR den neuen Python-Code-Block der hinzugefuegt werden muss. "
+        f"Kein kompletter File-Rewrite. Nur die neue Funktion oder den neuen Abschnitt. "
+        f"Zeige in einem Kommentar wo der Code eingefuegt werden soll. "
+        f"Kein Markdown, keine Erklaerungen, nur reiner Python-Code."
     )
     
-    neuer_code, genutzt = claude_mit_fallback(prompt)
+    # Dev Mode braucht Claude API — Ollama zu langsam für Code-Generierung
+    neuer_code = claude_api(prompt)
+    genutzt = "claude"
     
-    if "Fehler" in neuer_code or len(neuer_code) < 100:
+    import re as _re
+    neuer_code = _re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', neuer_code)
+    neuer_code = neuer_code.replace("```python", "").replace("```", "").strip()
+    
+    if not neuer_code or len(neuer_code) < 30:
         send(f"❌ Code-Generierung fehlgeschlagen:\n{neuer_code[:300]}")
         return
 
@@ -398,8 +483,11 @@ def dev_mode_feature_bauen(aufgabe: str):
         f"{fallback_info}"
     )
     send_buttons(msg, [
-        {"text": "✅ Anwenden", "callback_data": f"dev_ja_{datum}"},
-        {"text": "❌ Verwerfen", "callback_data": f"dev_nein_{datum}"}
+        [
+            {"text": "✅ Anwenden", "callback_data": f"dev_ja_{datum}"},
+            {"text": "❌ Verwerfen", "callback_data": f"dev_nein_{datum}"},
+            {"text": "🔄 Retry", "callback_data": f"dev_retry_{datum}"}
+        ]
     ])
 
 def dev_mode_anwenden(datum: str, bestaetigt: bool):
@@ -1151,6 +1239,28 @@ def verarbeite_nachricht(text: str):
         )
         return
     
+    if cmd in ["/tagebuch", "/tag"]:
+        zusammenfassung = tagebuch_zusammenfassung()
+        send(zusammenfassung)
+        return
+
+    if cmd in ["/dev", "dev"] or text.lower().startswith("dev "):
+        aufgabe = " ".join(parts[1:]).strip() if cmd in ["/dev", "dev"] else text[4:].strip()
+        if not aufgabe:
+            send(
+                "🛠️ <b>Dev Mode</b>\n\n"
+                "Nutzung: <code>dev [aufgabe]</code>\n\n"
+                "Beispiele:\n"
+                "• <code>dev lernbot füge /quiz Befehl hinzu</code>\n"
+                "• <code>dev jobbot filtere nur Jobs der letzten 3 Tage</code>\n"
+                "• <code>dev dealbot zeige auch Nintendo Deals</code>\n"
+                "• <code>dev james füge /wetter Befehl hinzu</code>\n\n"
+                f"Verfügbare Services: lernbot, jobbot, dealbot, pokedexbot, james"
+            )
+        else:
+            dev_mode_feature_bauen(aufgabe)
+        return
+
     if cmd == "/fitbit":
         try:
             from datetime import timedelta
@@ -1210,16 +1320,17 @@ def verarbeite_nachricht(text: str):
 #  MAIN LOOP
 # ══════════════════════════════════════════════════════════════════════
 def main():
-    print(f"[{datetime.now().strftime('%H:%M:%S')}] James Orchestrator v2 gestartet.")
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] James Orchestrator v3 gestartet.")
     pc = "🟢 Online" if pc_online() else "🔴 Offline"
     send(
-        f"🤖 <b>James Orchestrator v2 ist online!</b>\n\n"
+        f"🤖 <b>James Orchestrator v3 ist online!</b>\n\n"
         f"🖥️ Windows PC: {pc}\n"
         f"🧠 Ollama: gemma3:4b\n"
         f"✨ Claude API: aktiv\n"
-        f"📎 Paperclip Bridge: aktiv\n\n"
+        f"📎 Paperclip Bridge: aktiv\n"
+        f"🛠️ Dev Mode: aktiv\n\n"
         f"Schreib mir einfach was du brauchst!\n"
-        f"Tipp: <code>paperclip [aufgabe]</code> für CEO-Tasks"
+        f"Tipp: <code>dev [service] [aufgabe]</code> für autonomes Bauen"
     )
 
     last_update_id = 0
@@ -1241,6 +1352,17 @@ def main():
                     elif data.startswith("dev_nein_"):
                         datum = data.replace("dev_nein_", "")
                         dev_mode_anwenden(datum, False)
+                    elif data.startswith("dev_retry_"):
+                        # Aufgabe aus Backup-Datei lesen und neu generieren
+                        datum = data.replace("dev_retry_", "")
+                        out, _, _ = ssh_befehl(f"ls {BASE}/backups/*patch_{datum}.py 2>/dev/null")
+                        if out:
+                            patch_datei = out.strip().split("\n")[0]
+                            ziel_svc = patch_datei.split("/")[-1].split("_patch_")[0]
+                            send(f"🔄 Generiere neuen Patch für {ziel_svc}...")
+                            dev_mode_feature_bauen(f"{ziel_svc} (Retry)")
+                        else:
+                            send("❌ Patch nicht mehr vorhanden für Retry.")
                     continue
 
                 if not msg:
@@ -1256,6 +1378,7 @@ def main():
                         text = transkribiere_voice(file_id)
 
                 if text:
+                    tagebuch_log("INPUT", text)
                     verarbeite_nachricht(text)
             time.sleep(POLL_SEC)
         except KeyboardInterrupt:

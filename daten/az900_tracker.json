@@ -1,0 +1,34 @@
+{
+  "gesamt_richtig": 4,
+  "gesamt_falsch": 1,
+  "fragen": {
+    "404": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "195": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "316": {
+      "richtig": 0,
+      "falsch": 1,
+      "letzte": "2026-04-27"
+    },
+    "172": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "70": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    }
+  },
+  "wochen_richtig": 4,
+  "wochen_falsch": 1,
+  "wochen_start": "2026-04-27"
+}
