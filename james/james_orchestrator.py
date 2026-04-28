@@ -1250,6 +1250,12 @@ def verarbeite_nachricht(text: str):
     if cmd in ["/tagebuch", "/tag"]:
         zusammenfassung = tagebuch_zusammenfassung()
         send(zusammenfassung)
+        try:
+            datum = datetime.now().strftime("%Y-%m-%d")
+            obs_write("Tagebuch/Tagebuch_" + datum + ".md", "# Tagebuch " + datum + "\n\n" + zusammenfassung + "\n")
+            send("Gespeichert in Obsidian.")
+        except Exception as e:
+            print("[Tagebuch Fehler] " + str(e))
         return
 
     if cmd in ["/dev", "dev"] or text.lower().startswith("dev "):
@@ -1370,6 +1376,27 @@ def main():
                             dev_mode_feature_bauen(f"{ziel_svc} (Retry)")
                         else:
                             send("❌ Patch nicht mehr vorhanden für Retry.")
+                    elif data.startswith("habit_toggle_"):
+                        habit_id = data.replace("habit_toggle_", "")
+                        try:
+                            import sys as _sys
+                            _sys.path.insert(0, "/home/jens/JobAgent/shared")
+                            import importlib
+                            habits_mod = importlib.import_module("habits_check")
+                            importlib.reload(habits_mod)
+                            habits_mod.toggle_habit(habit_id)
+                        except Exception as e:
+                            print("[Habit Toggle Fehler] " + str(e))
+                    elif data == "habit_save":
+                        try:
+                            import sys as _sys
+                            _sys.path.insert(0, "/home/jens/JobAgent/shared")
+                            import importlib
+                            habits_mod = importlib.import_module("habits_check")
+                            importlib.reload(habits_mod)
+                            habits_mod.sende_auswertung()
+                        except Exception as e:
+                            print("[Habit Save Fehler] " + str(e))
                     elif data.startswith("quiz_"):
                         # Format: quiz_A_123 → Antwort A, Frage ID 123
                         try:

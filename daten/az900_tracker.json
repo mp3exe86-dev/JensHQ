@@ -1,6 +1,6 @@
 {
-  "gesamt_richtig": 19,
-  "gesamt_falsch": 6,
+  "gesamt_richtig": 32,
+  "gesamt_falsch": 8,
   "fragen": {
     "404": {
       "richtig": 1,
@@ -121,9 +121,84 @@
       "richtig": 1,
       "falsch": 0,
       "letzte": "2026-04-27"
+    },
+    "13": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "255": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "45": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "331": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "386": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "246": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "420": {
+      "richtig": 0,
+      "falsch": 1,
+      "letzte": "2026-04-27"
+    },
+    "204": {
+      "richtig": 0,
+      "falsch": 1,
+      "letzte": "2026-04-27"
+    },
+    "77": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "412": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-27"
+    },
+    "38": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-28"
+    },
+    "401": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-28"
+    },
+    "222": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-28"
+    },
+    "252": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-28"
+    },
+    "247": {
+      "richtig": 1,
+      "falsch": 0,
+      "letzte": "2026-04-28"
     }
   },
-  "wochen_richtig": 19,
-  "wochen_falsch": 6,
+  "wochen_richtig": 32,
+  "wochen_falsch": 8,
   "wochen_start": "2026-04-27"
 }

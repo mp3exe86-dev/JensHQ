@@ -32,6 +32,7 @@ QUELLEN = [
     {"name": "Drugs.com Alerts", "emoji": "ALERT", "url": "https://www.drugs.com/feeds/fda_alerts.xml", "typ": "rss"},
     {"name": "Drugs.com Approvals", "emoji": "OK", "url": "https://www.drugs.com/feeds/new_drug_approvals.xml", "typ": "rss"},
     {"name": "DailyMed Labels", "emoji": "NIH", "url": "https://dailymed.nlm.nih.gov/dailymed/rss.cfm?type=rsstype2", "typ": "rss"},
+    {"name": "MHRA UK Safety", "emoji": "UK", "url": "https://www.gov.uk/search/news-and-communications.atom?keywords=recall+medicine&organisations%5B%5D=medicines-and-healthcare-products-regulatory-agency", "typ": "rss"},
 ]
 
 # ═══════════════════════════════════════
@@ -90,7 +91,11 @@ def ist_relevant(titel: str, beschreibung: str) -> bool:
     keywords_negativ = [
         "committee site", "rdrc", "user fee", "fiscal year", "dmf list",
         "hauskatalog", "forms", "meeting agenda", "procurement", "career",
-        "guideline comment", "docket"
+        "guideline comment", "docket", "grand rounds", "internet pharmacy",
+        "warning letters", "drug alerts and statements", "accelerated approvals",
+        "compounding", "bulk drug", "oncology approval notifications",
+        "verified clinical benefit", "activities report", "rss feed",
+        "stay informed", "fda resources"
     ]
 
     text = (titel + " " + beschreibung).lower()
@@ -111,13 +116,10 @@ def ist_relevant(titel: str, beschreibung: str) -> bool:
 def ollama_zusammenfassung(titel: str, beschreibung: str, quelle: str) -> str:
     try:
         prompt = (
-            f"Fasse diese Pharmako-Sicherheitsmeldung auf Deutsch zusammen:\n\n"
+            f"Pharmako-Sicherheitsmeldung zusammenfassen. NUR die Antwort, kein Prompt-Text wiederholen.\n"
             f"Titel: {titel}\n"
-            f"Text: {beschreibung[:800]}\n\n"
-            f"Antworte in genau 2 Saetzen auf Deutsch:\n"
-            f"Satz 1: Welches Medikament oder Wirkstoff ist betroffen?\n"
-            f"Satz 2: Was ist die konkrete Massnahme oder das Risiko?\n"
-            f"Wenn du es nicht weisst, schreibe: Keine spezifischen Details verfuegbar."
+            f"Text: {beschreibung[:800]}\n"
+            f"Schreibe genau 2 kurze Saetze auf Deutsch: 1) Betroffenes Medikament/Wirkstoff. 2) Konkrete Massnahme oder Risiko. Nur die 2 Saetze, nichts anderes."
         )
         r = requests.post(f"{OLLAMA_URL}/api/generate", json={
             "model": OLLAMA_MODEL,
