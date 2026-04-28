@@ -33,6 +33,8 @@ QUELLEN = [
     {"name": "Drugs.com Approvals", "emoji": "OK", "url": "https://www.drugs.com/feeds/new_drug_approvals.xml", "typ": "rss"},
     {"name": "DailyMed Labels", "emoji": "NIH", "url": "https://dailymed.nlm.nih.gov/dailymed/rss.cfm?type=rsstype2", "typ": "rss"},
     {"name": "MHRA UK Safety", "emoji": "UK", "url": "https://www.gov.uk/search/news-and-communications.atom?keywords=recall+medicine&organisations%5B%5D=medicines-and-healthcare-products-regulatory-agency", "typ": "rss"},
+    {"name": "ClinicalTrials Arena", "emoji": "EU", "url": "https://www.clinicaltrialsarena.com/feed/", "typ": "rss"},
+    {"name": "PMLive Pharma News", "emoji": "EU", "url": "https://www.pmlive.com/rss", "typ": "rss"},
 ]
 
 # ═══════════════════════════════════════

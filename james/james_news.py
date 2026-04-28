@@ -34,6 +34,19 @@ OFFLINE_SPRUECHE = [
     "JensHQ läuft stabil. Ich melde mich einfach mal, weil ich kann. Genieß den Moment. 🚀",
     "Fun Fact des Tages: Du baust KI-Systeme und verpasst wahrscheinlich gerade ein Eintracht Spiel. Prioritäten. 🦅",
     "Übermüdeter Vater + IT-Nerd + AZ-900 Student + KI-Bastler. Irgendwo dazwischen schläfst du auch mal. 😴",
+    "Pikachu ist offiziell eine Maus. Eine elektrische Maus. Die Evolutionstheorie hatte ihren schlechtesten Tag als das beschlossen wurde.",
+    "Fun Fact: Gengar ist angeblich der Schatten von Clefable. Nie offiziell bestaetigt. Aber du weisst es jetzt. Schlaf gut.",
+    "Magikarp braucht Level 20 um Garados zu werden. Du brauchst AZ-900 um Cloud Engineer zu werden. Einer hat den schlechteren Deal.",
+    "Snorlax schlaeft 16 Stunden am Tag und blockiert trotzdem wichtige Wege. Ich sage nichts.",
+    "Der RasPi laeuft seit Tagen durch ohne Neustart. Ich respektiere ihn mehr als manche Menschen.",
+    "IT-Nerd + Vater + AZ-900 Student + KI-Bastler + Pokemon Sammler. Wie viele Tabs hast du im Kopf offen?",
+    "Eintracht Frankfurt Reminder: Die Saison ist lang. Dein Optimismus auch. Beides wird auf die Probe gestellt.",
+    "KiGa-Vaeter-Stammtisch Tipp: Die beste Antwort auf Wie machst du das alles ist Ich schlafe nicht. Kurz, praezise, wahr.",
+    "Ironie des Lebens: Du baust ein System das dir sagt wann du schlafen sollst, waehrend du nicht schlaefst um es zu bauen.",
+    "Cubone traegt den Schaedel seiner verstorbenen Mutter als Helm. Nintendo hat das einfach fuer Kinder gemacht. Kein grosses Ding.",
+    "Der SEi8 ist unterwegs. Irgendwo zwischen Amazon-Lager und deiner Tuer wartet er darauf Ollama zu laufen. Haltet durch.",
+    "Probezeit-Philosophie: 90 Tage um zu beweisen dass du gut bist. Oder 90 Tage um zu entscheiden ob die gut genug sind.",
+    "Dehnen ist wie Zaehneputzen. Jeder weiss dass man es taeglich machen sollte. Keiner tut es wirklich. Ausser du jetzt hoffentlich.",
 ]
 
 def pc_online() -> bool:
