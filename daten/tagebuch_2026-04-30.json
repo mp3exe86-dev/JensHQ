@@ -1,0 +1,70 @@
+{
+  "datum": "2026-04-30",
+  "eintraege": [
+    {
+      "zeit": "16:40:06",
+      "richtung": "INPUT",
+      "text": "/status"
+    },
+    {
+      "zeit": "16:41:03",
+      "richtung": "INPUT",
+      "text": "/status"
+    },
+    {
+      "zeit": "16:41:05",
+      "richtung": "INPUT",
+      "text": "/status"
+    },
+    {
+      "zeit": "16:42:07",
+      "richtung": "INPUT",
+      "text": "/hilfe"
+    },
+    {
+      "zeit": "17:26:40",
+      "richtung": "INPUT",
+      "text": "/status"
+    },
+    {
+      "zeit": "17:29:11",
+      "richtung": "INPUT",
+      "text": "/status"
+    },
+    {
+      "zeit": "17:29:13",
+      "richtung": "INPUT",
+      "text": "/status"
+    },
+    {
+      "zeit": "17:30:17",
+      "richtung": "INPUT",
+      "text": "Hallo"
+    },
+    {
+      "zeit": "17:30:19",
+      "richtung": "INPUT",
+      "text": "Hallo"
+    },
+    {
+      "zeit": "17:32:09",
+      "richtung": "INPUT",
+      "text": "hallo"
+    },
+    {
+      "zeit": "17:32:44",
+      "richtung": "INPUT",
+      "text": "/status"
+    },
+    {
+      "zeit": "17:36:15",
+      "richtung": "INPUT",
+      "text": "Hallo?"
+    },
+    {
+      "zeit": "17:37:21",
+      "richtung": "INPUT",
+      "text": "Schreib mir einen Sarkastischen Witz über Pokemon"
+    }
+  ]
+}
